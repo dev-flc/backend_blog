@@ -19,12 +19,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ferch01992/validations-forms.git"
+    "url": "git+https://github.com/ferch01992/backend_blog.git"
   },
   "bugs": {
-    "url": "https://github.com/ferch01992/validations-forms/issues"
+    "url": "https://github.com/ferch01992/backend_blog/issues"
   },
-  "homepage": "https://github.com/ferch01992/validations-forms#readme",
+  "homepage": "https://github.com/ferch01992/backend_blog#readme",
   "keywords": [
     "babel/cli"
   ],
