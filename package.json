@@ -15,7 +15,7 @@
     "prepare": "husky install",
     "dev": "nodemon src/index.js",
     "build": "npm run clean; babel src --out-dir api --copy-files",
-    "start": "echo 'pendiente'"
+    "start": "node api/index.js"
   },
   "repository": {
     "type": "git",
