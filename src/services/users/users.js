@@ -5,7 +5,7 @@ const { keyBy } = _
 
 let result = {
   code: 200,
-  message: "Internal Server Error",
+  message: "jajaja",
   messageDev: "",
 }
 /*
@@ -23,6 +23,10 @@ res.sendStatus(500); // equivalent to res.status(500).send('Internal Server Erro
 
 // List Users
 export const getUserList = (request, response) => {
+  response.send(result)
+}
+
+export const getUserLists = (request, response) => {
   conexion.query("SELECT * FROM users", (error, results) => {
     if (error) {
       result = { ...result, messageDev: error.sqlMessage, code: 500 }
