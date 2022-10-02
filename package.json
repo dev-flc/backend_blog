@@ -16,7 +16,7 @@
     "dev": "nodemon src/index.js",
     "build": "babel src --out-dir api --copy-files",
     "start": "node api/index.js",
-    "logs":"heroku logs --tail --app flc-backend-blog"
+    "logs": "heroku logs --tail --app flc-backend-blog"
   },
   "repository": {
     "type": "git",
