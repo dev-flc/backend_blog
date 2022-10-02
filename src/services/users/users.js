@@ -22,6 +22,7 @@ res.sendStatus(500); // equivalent to res.status(500).send('Internal Server Erro
 */
 
 // List Users
+
 export const getUserList = (request, response) => {
   response.send(result)
 }
