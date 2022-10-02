@@ -1,0 +1,15 @@
+package-lock.json
+package.json
+README.md
+LICENCE
+.gitignore
+.babelrc
+.eslintignore
+.prettierignore
+.editorconfig
+node_modules/
+public/
+api/
+example/
+.github/
+.eslintcache
