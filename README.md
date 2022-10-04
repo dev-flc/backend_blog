@@ -1,7 +1,5 @@
 # API NODE JS BLOG
 
-5528141414:AAE2vAScSueee1nSJVeSSiCKHjAa1e4JbB0
-
 https://core.telegram.org/bots/api
 
 I can help you create and manage Telegram bots. If you're new to the Bot API, please see the manual (https://core.telegram.org/bots).
