@@ -39,6 +39,8 @@ bot.launch()
 
 // List Users
 export const getUserList = async (request, response) => {
+  console.log("request==>")
+
   await usersMongo
     .find()
     .then((data) => {
