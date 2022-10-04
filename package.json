@@ -18,6 +18,7 @@
     "prepare": "husky install",
     "dev": "nodemon src/index.js",
     "build": "babel src --out-dir api --copy-files",
+    "builds": "babel src --out-dir api --copy-files",
     "start": "node index.js",
     "logs": "heroku logs --tail --app flc-test"
   },
