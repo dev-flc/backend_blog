@@ -10,3 +10,4 @@ yarn-error.log*
 api/
 .eslintcache
 .vercel
+.env

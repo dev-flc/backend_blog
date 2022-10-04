@@ -6,6 +6,8 @@ dotenv.config()
 
 const { PASS_TELEGRAM } = process.env
 
+console.log("PASS_TELEGRAM==>", PASS_TELEGRAM)
+
 const bot = new Telegraf(PASS_TELEGRAM)
 
 bot.start((ctx) => {
@@ -39,8 +41,6 @@ bot.launch()
 
 // List Users
 export const getUserList = async (request, response) => {
-  console.log("request==>")
-
   await usersMongo
     .find()
     .then((data) => {
