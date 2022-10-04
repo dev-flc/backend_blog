@@ -2,7 +2,7 @@
   "name": "test",
   "version": "1.0.0",
   "description": "backend-blog",
-  "main": "api/index.js",
+  "main": "src/index.js",
   "files": [
     "api"
   ],
@@ -19,7 +19,7 @@
     "dev": "nodemon src/index.js",
     "build": "babel src --out-dir api --copy-files",
     "builds": "babel src --out-dir api --copy-files",
-    "start": "node api/index.js",
+    "start": "node src/index.js",
     "logs": "heroku logs --tail --app flc-test",
     "installCommand": "npm install"
   },
