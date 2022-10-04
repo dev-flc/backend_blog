@@ -4,8 +4,8 @@ import { postUserSave, getUserList } from "./../services/users/users.js"
 
 const router = express.Router()
 
-router.get("/list-users", getUserList)
+router.get("/list", getUserList)
 
-router.post("/save-user", postUserSave)
+router.post("/save", postUserSave)
 
 export { router }
