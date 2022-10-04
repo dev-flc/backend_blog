@@ -7,6 +7,9 @@
     "api"
   ],
   "type": "module",
+  "engines": {
+    "node": "16.x"
+  },
   "scripts": {
     "removeLib": "chmod +x removeLib.sh && ./removeLib.sh",
     "clean": "rm -rf ./api",
