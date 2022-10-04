@@ -1,77 +1,101 @@
-import _ from "lodash"
+import { usersMongo } from "../../models/users/usersMongo.js"
+import dotenv from "dotenv"
+import { Telegraf } from "telegraf"
 
-import { conexion } from "./../../database/database.js"
-const { keyBy } = _
+dotenv.config()
 
-let result = {
-  code: 200,
-  message: "otro",
-  messageDev: "",
-}
-/*
-application/json
-application/x-javascript
-text/javascript
-text/x-javascript
-text/x-json
+const { PASS_TELEGRAM } = process.env
 
-res.sendStatus(200); // equivalent to res.status(200).send('OK')
-res.sendStatus(403); // equivalent to res.status(403).send('Forbidden')
-res.sendStatus(404); // equivalent to res.status(404).send('Not Found')
-res.sendStatus(500); // equivalent to res.status(500).send('Internal Server Error')
-*/
+const bot = new Telegraf(PASS_TELEGRAM)
+
+bot.start((ctx) => {
+  console.log("ctx==>", ctx)
+  ctx.reply(`CHAT_ID: ${ctx.message.chat.id}`)
+})
+
+bot.help((ctx) => {
+  console.log("ctx==>", ctx)
+  ctx.reply("H E L P")
+})
+
+bot.settings((ctx) => {
+  console.log("ctx==>", ctx)
+  ctx.reply("S E T T I N G S")
+})
+
+bot.command("examplessss", (ctx) => {
+  ctx.reply("My Custom comman example")
+})
+
+bot.command(["example", "Example", "EXAMPLE"], (ctx) => {
+  ctx.reply(`CHAT_ID: ${ctx.message.chat.id}`)
+})
+
+bot.hears("ayuda", (ctx) => {
+  ctx.reply("necesitas ayuda ..?")
+})
+
+bot.launch()
 
 // List Users
-
-export const getUserList = (request, response) => {
-  response.send(result)
+export const getUserList = async (request, response) => {
+  await usersMongo
+    .find()
+    .then((data) => {
+      return response.status(200).send(data)
+    })
+    .catch((error) => {
+      return response.status(422).send({ message: error.message })
+    })
 }
 
-export const getUserLists = (request, response) => {
-  conexion.query("SELECT * FROM users", (error, results) => {
-    if (error) {
-      result = { ...result, messageDev: error.sqlMessage, code: 500 }
-      response.set({
-        "Content-Type": "application/json",
-      })
-      response.status(500).send(result)
-      // throw error;
-    } else {
-      const convertObjectUsers = keyBy(results, "id_user")
-      response.send(convertObjectUsers)
-    }
+// Save User
+export const postUserSave = async (request, response) => {
+  response.set({
+    "Content-Type": "application/json",
   })
-}
+  const newUser = usersMongo(request.body)
 
-// GUARDAR un REGISTRO
-export const postUserSave = (req, res) => {
-  const user = req.body.user
-  const rol = req.body.rol
-  conexion.query("INSERT INTO users SET ?", { user, rol }, (error, results) => {
-    if (error) {
-      console.log(error)
-    } else {
-      res.send({
-        status: "Ok",
-      })
+  try {
+    const data = await newUser.save()
+    return response.send({ code: 200, data })
+  } catch (error) {
+    let responseMessage = {
+      url: request.url,
     }
-  })
-}
 
-// ACTUALIZAR un REGISTRO
-export const update = (req, res) => {
-  const id = req.body.id
-  const user = req.body.user
-  const rol = req.body.rol
-  conexion.query(
-    "UPDATE users SET ? WHERE id = ?",
-    [{ user, rol }, id],
-    (error, results) => {
-      if (error) {
-        console.log(error)
-      } else {
-        res.redirect("/")
+    if (error.name === "ValidationError") {
+      const message = {}
+      Object.keys(error.errors).forEach((key) => {
+        message[key] = error.errors[key].message
+        message.key = key
+      })
+      responseMessage = {
+        ...responseMessage,
+        messageDev: error._message,
+        message: message[message.key],
+        code: 422,
+      }
+    } else if (error.name === "MongoServerError" && error.code === 11000) {
+      responseMessage = {
+        ...responseMessage,
+        message: "The data already exists",
+        messageDev: `The data already exists: ${JSON.stringify(
+          error.keyValue
+        )}`,
+        code: 422,
+      }
+    } else {
+      responseMessage = {
+        ...responseMessage,
+        messageDev: "Bad Request",
+        message: "Bad Request",
+        code: 400,
       }
     }
-  )
+
+    bot.telegram.sendMessage(1574317938, JSON.stringify(responseMessage))
+
+    return response.status(responseMessage.code).send(responseMessage)
+  }
 }

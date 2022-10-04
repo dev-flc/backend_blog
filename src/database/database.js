@@ -1,12 +1,13 @@
-// Invocamos a MySQL y realizamos la conexion
-import { conexionMysql } from "./conections.js"
+// Invocamos a MongoCoonnect y realizamos la conexion
+import { connectMongo } from "./connections.js"
 
-conexionMysql.connect((error) => {
-  if (error) {
-    console.error("El error de conexión es: " + error)
-    return
+const connectMongoDB = async () => {
+  try {
+    await connectMongo()
+    console.log("¡Conectado a la Base de Datos MongoDB!")
+  } catch (error) {
+    console.log("catch==>", error)
   }
-  console.log("¡Conectado a la Base de Datos!")
-})
+}
 
-export { conexionMysql as conexion }
+export { connectMongoDB }
